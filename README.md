@@ -4,6 +4,8 @@ gnp (Google News Parser) is a simple python module to parse news articles from g
 It offers output in json format for all available editions, along with location overloading.
 Also, it offers search results of news article for user supplied text.
 
+## Install Steps:
+    pip install gnp
 
 ## Basic Usage:
 
