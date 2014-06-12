@@ -1,0 +1,395 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Gnp by mPAND</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Gnp</h1>
+        <p class="header">Google News Parser</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/mPAND/gnp/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/mPAND/gnp/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/mPAND/gnp">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/mPAND">mPAND</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a name="google-news-parser" class="anchor" href="#google-news-parser"><span class="octicon octicon-link"></span></a>Google News Parser</h1>
+
+<p>gnp (Google News Parser) is a simple python module to parse news articles from google news website
+It offers output in json format for all available editions, along with location overloading.
+Also, it offers search results of news article for user supplied text.</p>
+
+<h2>
+<a name="install-steps" class="anchor" href="#install-steps"><span class="octicon octicon-link"></span></a>Install Steps:</h2>
+
+<pre><code>pip install gnp
+</code></pre>
+
+<h2>
+<a name="basic-usage" class="anchor" href="#basic-usage"><span class="octicon octicon-link"></span></a>Basic Usage:</h2>
+
+<h3>
+<a name="get-news-for-google-news-indian-edition" class="anchor" href="#get-news-for-google-news-indian-edition"><span class="octicon octicon-link"></span></a>Get news for Google News Indian Edition</h3>
+
+<pre><code>&gt;&gt;&gt; import gnp
+&gt;&gt;&gt; a = gnp.get_google_news(gnp.EDITION_ENGLISH_INDIA)
+</code></pre>
+
+<h3>
+<a name="get-news-for-google-news-us-version-as-if-browsing-from-londonuk" class="anchor" href="#get-news-for-google-news-us-version-as-if-browsing-from-londonuk"><span class="octicon octicon-link"></span></a>Get news for Google News US Version as if browsing from London,UK</h3>
+
+<pre><code>&gt;&gt;&gt; import gnp
+&gt;&gt;&gt; b = gnp.get_google_news(gnp.EDITION_ENGLISH_US,geo='London,UK')
+</code></pre>
+
+<h3>
+<a name="get-news-for-search-query-whats-happening-on-earth" class="anchor" href="#get-news-for-search-query-whats-happening-on-earth"><span class="octicon octicon-link"></span></a>Get news for search Query "What's happening on earth".</h3>
+
+<h4>
+<a name="default-you-get-results-for-barack-obama" class="anchor" href="#default-you-get-results-for-barack-obama"><span class="octicon octicon-link"></span></a>Default you get results for 'Barack Obama'</h4>
+
+<pre><code>&gt;&gt;&gt; import gnp
+&gt;&gt;&gt; c = gnp.get_google_news_query("What's happening on earth")
+</code></pre>
+
+<h3>
+<a name="method-to-write-to-flatfile" class="anchor" href="#method-to-write-to-flatfile"><span class="octicon octicon-link"></span></a>Method to write to flatfile</h3>
+
+<pre><code>&gt;&gt;&gt; import gnp
+&gt;&gt;&gt; d = gnp.get_google_news(gnp.EDITION_ENGLISH_INDIA)
+
+&gt;&gt;&gt; import codecs
+&gt;&gt;&gt; import json
+
+&gt;&gt;&gt; j = json.dumps(d, indent=4, ensure_ascii=False )
+&gt;&gt;&gt; f = codecs.open( 'news.json', 'w', encoding='utf-8')
+&gt;&gt;&gt; f.write(j.decode('utf-8'))
+&gt;&gt;&gt; f.close()
+</code></pre>
+
+<h4>
+<a name="list-of-editions-available" class="anchor" href="#list-of-editions-available"><span class="octicon octicon-link"></span></a>List of Editions Available::</h4>
+
+<table>
+<thead><tr>
+<th>Edition Name</th>
+<th>Region</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>EDITION_SPANISH_ARGENTINA</td>
+<td>Argentina</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_AUSTRALIA</td>
+<td>Australia</td>
+</tr>
+<tr>
+<td>EDITION_DUTCH_BELGIUM</td>
+<td>België</td>
+</tr>
+<tr>
+<td>EDITION_FRENCH_BELGIUM</td>
+<td>Belgique</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_BOTSWANA</td>
+<td>Botswana</td>
+</tr>
+<tr>
+<td>EDITION_PORTUGESE_BRAZIL</td>
+<td>Brasil</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_CANADA</td>
+<td>Canada English</td>
+</tr>
+<tr>
+<td>EDITION_FRENCH_CANADA</td>
+<td>Canada Français</td>
+</tr>
+<tr>
+<td>EDITION_CZECH_CZECH_REPUBLIC</td>
+<td>Česká republika</td>
+</tr>
+<tr>
+<td>EDITION_SPANISH_CHILE</td>
+<td>Chile</td>
+</tr>
+<tr>
+<td>EDITION_SPANISH_COLUMBIA</td>
+<td>Colombia</td>
+</tr>
+<tr>
+<td>EDITION_SPANISH_CUBA</td>
+<td>Cuba</td>
+</tr>
+<tr>
+<td>EDITION_DEUTSCH_DEUTSCHLAND</td>
+<td>Deutschland</td>
+</tr>
+<tr>
+<td>EDITION_SPANISH_SPAIN</td>
+<td>España</td>
+</tr>
+<tr>
+<td>EDITION_SPANISH_US</td>
+<td>Estados Unidos</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_ETHIOPIA</td>
+<td>Ethiopia</td>
+</tr>
+<tr>
+<td>EDITION_FRENCH_FRANCE</td>
+<td>France</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_GHANA</td>
+<td>Ghana</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_INDIA</td>
+<td>India</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_IRELAND</td>
+<td>Ireland</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_ISREAL</td>
+<td>Israel English</td>
+</tr>
+<tr>
+<td>EDITION_ITALIAN_ITALY</td>
+<td>Italia</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_KENYA</td>
+<td>Kenya</td>
+</tr>
+<tr>
+<td>EDITION_HUNGARIAN_HUNGARY</td>
+<td>Magyarország</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_MALAYSIA</td>
+<td>Malaysia</td>
+</tr>
+<tr>
+<td>EDITION_FRENCH_MORACCO</td>
+<td>Maroc</td>
+</tr>
+<tr>
+<td>EDITION_SPANISH_MEXICO</td>
+<td>México</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_NAMIBIA</td>
+<td>Namibia</td>
+</tr>
+<tr>
+<td>EDITION_DUTCH_NEDERLAND</td>
+<td>Nederland</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_NEW_ZEALAND</td>
+<td>New Zealand</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_NIGERIA</td>
+<td>Nigeria</td>
+</tr>
+<tr>
+<td>EDITION_NORSK_NORWAY</td>
+<td>Norge</td>
+</tr>
+<tr>
+<td>EDITION_DEUTSCH_AUSTRIA</td>
+<td>Österreich</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_PAKISTAN</td>
+<td>Pakistan</td>
+</tr>
+<tr>
+<td>EDITION_SPANISH_PERU</td>
+<td>Perú</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_PHILIPPINES</td>
+<td>Philippines</td>
+</tr>
+<tr>
+<td>EDITION_POLISH_POLAND</td>
+<td>Polska</td>
+</tr>
+<tr>
+<td>EDITION_PORTUGUESE_PORTUGAL</td>
+<td>Portugal</td>
+</tr>
+<tr>
+<td>EDITION_GERMAN_SWITZERLAND</td>
+<td>Schweiz</td>
+</tr>
+<tr>
+<td>EDITION_FRENCH_SENEGAL</td>
+<td>Sénégal</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_SINGAPORE</td>
+<td>Singapore</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_SOUTH_AFRICA</td>
+<td>South Africa</td>
+</tr>
+<tr>
+<td>EDITION_FRENCH_SWITZERLAND</td>
+<td>Suisse</td>
+</tr>
+<tr>
+<td>EDITION_SWEDISH_SWEDEN</td>
+<td>Sverige</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_TANZANIA</td>
+<td>Tanzania</td>
+</tr>
+<tr>
+<td>EDITION_TURKISH_TURKEY</td>
+<td>Türkiye</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_UK</td>
+<td>U.K.</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_US</td>
+<td>U.S.</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_UGANDA</td>
+<td>Uganda</td>
+</tr>
+<tr>
+<td>EDITION_SPANISH_VENEZUELA</td>
+<td>Venezuela</td>
+</tr>
+<tr>
+<td>EDITION_VIETNAMESE_VIETNAM</td>
+<td>Việt Nam (Vietnam)</td>
+</tr>
+<tr>
+<td>EDITION_ENGLISH_ZIMBABWE</td>
+<td>Zimbabwe</td>
+</tr>
+<tr>
+<td>EDITION_GREEK_GREECE</td>
+<td>Ελλάδα (Greece)</td>
+</tr>
+<tr>
+<td>EDITION_RUSSIAN_RUSSIA</td>
+<td>Россия (Russia)</td>
+</tr>
+<tr>
+<td>EDITION_SERBIAN_SERBIA</td>
+<td>Србија (Serbia)</td>
+</tr>
+<tr>
+<td>EDITION_RUSSIAN_UKRAINE</td>
+<td>Украина / русский (Ukraine)</td>
+</tr>
+<tr>
+<td>EDITION_UKRAINIAN_UKRAINE</td>
+<td>Україна / українська (Ukraine)</td>
+</tr>
+<tr>
+<td>EDITION_HEBREW_ISRAEL</td>
+<td>ישראל (Israel)</td>
+</tr>
+<tr>
+<td>EDITION_ARABIC_UAE</td>
+<td>الإمارات (UAE)</td>
+</tr>
+<tr>
+<td>EDITION_ARABIC_SAUDI_ARABIA</td>
+<td>السعودية (KSA)</td>
+</tr>
+<tr>
+<td>EDITION_ARABIC_ARAB_WORLD</td>
+<td>العالم العربي (Arabic)</td>
+</tr>
+<tr>
+<td>EDITION_ARABIC_LEBANON</td>
+<td>لبنان (Lebanon)</td>
+</tr>
+<tr>
+<td>EDITION_ARABIC_EGYPT</td>
+<td>مصر (Egypt)</td>
+</tr>
+<tr>
+<td>EDITION_HINDI_INDIA</td>
+<td>हिन्दी (India)</td>
+</tr>
+<tr>
+<td>EDITION_TAMIL_INDIA</td>
+<td>தமிழ் (India)</td>
+</tr>
+<tr>
+<td>EDITION_TELUGU_INDIA</td>
+<td>తెలుగు (India)</td>
+</tr>
+<tr>
+<td>EDITION_MALAYALAM_INDIA</td>
+<td>മലയാളം (India)</td>
+</tr>
+<tr>
+<td>EDITION_KOREAN_SOUTH_KOREA</td>
+<td>한국 (Korea)</td>
+</tr>
+<tr>
+<td>EDITION_CHINESE_CHINA</td>
+<td>中国 (China)</td>
+</tr>
+<tr>
+<td>EDITION_CHINESE_TAIWAN</td>
+<td>台灣 (Taiwan)</td>
+</tr>
+<tr>
+<td>EDITION_JAPANESE_JAPAN</td>
+<td>日本 (Japan)</td>
+</tr>
+<tr>
+<td>EDITION_JAPANESE_HONG_KONG</td>
+<td>香港 (Hong Kong)</td>
+</tr>
+</tbody>
+</table><p>Copyright (c) 2014, Manuel David Pandian</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
