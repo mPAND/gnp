@@ -6,11 +6,11 @@ with open('README.txt') as file:
     long_description = file.read()    
 
 setup(name='gnp',
-      version='0.0.1',
+      version='0.0.2',
       description='Google News Parser',
       author='Manuel David Pandian',
       author_email='manueldavidpandian@gmail.com',
-      url='tbd',
+      url='https://github.com/mPAND/gnp',
       py_modules=['gnp'],
       install_requires=['lxml'],
       classifiers=['Development Status :: 3 - Alpha',
