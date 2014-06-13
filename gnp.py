@@ -286,7 +286,7 @@ def get_google_news(url,geo="detect_metro_area",detailed=False):
     return data
     
 def get_google_news_query(q="Barack Obama"):
-    page = __parse_url('https://news.google.com/news?q='+urllib2.quote(q))
+    page = _parse_url('https://news.google.com/news?q='+urllib2.quote(q))
     data = {}
     data['stories']=[]
     now = datetime.datetime.now()
