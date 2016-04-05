@@ -128,10 +128,10 @@ __license__ = 'MIT'
 __all__ = ['get_google_news','get_google_news_query']
 
 
-import urllib2 
-import re 
-import json
-from lxml import etree 
+import urllib
+import urllib.request
+import urllib.parse
+from lxml import etree
 import datetime
 
 # List of Constants
@@ -209,38 +209,37 @@ EDITION_CHINESE_TAIWAN	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&
 EDITION_JAPANESE_JAPAN	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=jp'
 EDITION_JAPANESE_HONG_KONG	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=hk'
 
-def _parse_url(url): 
-    req = urllib2.Request(url) 
-    r = urllib2.urlopen(req).read() 
-    page = etree.HTML(r) 
-    return page 
+def _parse_url(url):
+    r = urllib.request.urlopen(url).read()
+    page = etree.HTML(r)
+    return page
 
-def _parse_stories_page(page,category): 
-    h2 = page[1][5][0][0][0][2][0][0][0][1][0][0][2][0][0] 
-    c = len(h2) 
+def _parse_stories_page(page,category):
+    h2 = page[1][5][0][0][0][2][0][0][0][1][0][0][2][0][0]
+    c = len(h2)
     pg0 = []
-    for cj in range(0,c): 
-        if h2[cj].attrib['class'].split()[0] == 'blended-wrapper': 
-            ll=len(h2[cj][0][0][0][1][0][0][0]) 
-            for cl in range(0,ll): 
-                if h2[cj][0][0][0][1][0][0][0][cl].attrib['class'] == 'esc-layout-article-cell': 
-                    SRC = h2[cj][0][0][0][1][0][0][0][cl][1][0][0][0][0][0].xpath("string()").encode('utf-8') 
-                    HL = h2[cj][0][0][0][1][0][0][0][cl][0][0][0][0].xpath("string()").encode('utf-8') 
-                    CONTEXT = h2[cj][0][0][0][1][0][0][0][cl][2].xpath("string()").encode('utf-8') 
-                    URLLINK = h2[cj][0][0][0][1][0][0][0][cl][0][0][0].attrib['url'].encode('utf-8') 
+    for cj in range(0,c):
+        if h2[cj].attrib['class'].split()[0] == 'blended-wrapper':
+            ll=len(h2[cj][0][0][0][1][0][0][0])
+            for cl in range(0,ll):
+                if h2[cj][0][0][0][1][0][0][0][cl].attrib['class'] == 'esc-layout-article-cell':
+                    SRC = h2[cj][0][0][0][1][0][0][0][cl][1][0][0][0][0][0].xpath("string()").encode('utf-8')
+                    HL = h2[cj][0][0][0][1][0][0][0][cl][0][0][0][0].xpath("string()").encode('utf-8')
+                    CONTEXT = h2[cj][0][0][0][1][0][0][0][cl][2].xpath("string()").encode('utf-8')
+                    URLLINK = h2[cj][0][0][0][1][0][0][0][cl][0][0][0].attrib['url'].encode('utf-8')
                     pg = {}
                     pg["title"]=HL
-                    pg["link"]=URLLINK 
-                    pg["source"]=SRC 
-                    pg["content_snippet"]=CONTEXT 
+                    pg["link"]=URLLINK
+                    pg["source"]=SRC
+                    pg["content_snippet"]=CONTEXT
                     pg["category"] = category
                     pg0.append(pg)
     return pg0
 
-def get_google_news(url,geo="detect_metro_area",detailed=False): 
-    page = _parse_url(url) 
-    #print "List of Topics" 
-    i = len(page[1][5][0][0][0][1][0][0]) 
+def get_google_news(url,geo="detect_metro_area",detailed=False):
+    page = _parse_url(url)
+    #print "List of Topics"
+    i = len(page[1][5][0][0][0][1][0][0])
     data = {}
     data['topics']=[]
     data['subtopics']={}
@@ -249,20 +248,20 @@ def get_google_news(url,geo="detect_metro_area",detailed=False):
     data['meta']['url']=url
     now = datetime.datetime.now()
     data['meta']['timestamp'] = str(now)
-    for idx in range(0,i): 
+    for idx in range(0,i):
         t = page[1][5][0][0][0][1][0][0][idx][0].text.encode('utf-8')
         data['topics'].append(t)
-        data['subtopics'][t] =[] 
-        if page[1][5][0][0][0][1][0][0][idx][0].tag == 'span': 
-            if len(page[1][5][0][0][0][1][0][0][idx]) > 1 : 
-                j=len(page[1][5][0][0][0][1][0][0][idx][1]) 
-                for idx2 in range(0,j): 
-                    st = page[1][5][0][0][0][1][0][0][idx][1][idx2][0].text.encode('utf-8') 
+        data['subtopics'][t] =[]
+        if page[1][5][0][0][0][1][0][0][idx][0].tag == 'span':
+            if len(page[1][5][0][0][0][1][0][0][idx]) > 1 :
+                j=len(page[1][5][0][0][0][1][0][0][idx][1])
+                for idx2 in range(0,j):
+                    st = page[1][5][0][0][0][1][0][0][idx][1][idx2][0].text.encode('utf-8')
                     data['subtopics'][t].append(st)
-        elif page[1][5][0][0][0][1][0][0][idx][0].tag == 'a': 
-            url2='https://news.google.com' +page[1][5][0][0][0][1][0][0][idx][0].attrib['href'] 
+        elif page[1][5][0][0][0][1][0][0][idx][0].tag == 'a':
+            url2='https://news.google.com' +page[1][5][0][0][0][1][0][0][idx][0].attrib['href']
             if 'detect_metro_area' in url2:
-                url2 = url2.replace('detect_metro_area',urllib2.quote(geo)) 
+                url2 = url2.replace('detect_metro_area',urllib.parse.quote(geo))
                 page2=_parse_url(url2)
                 t2=page2[1][5][0][0][0][2][0][0][0][1][0][0][2][0][0][0][0][0][0][0].text
                 data['topics'].remove(t)
@@ -270,29 +269,29 @@ def get_google_news(url,geo="detect_metro_area",detailed=False):
                 del data['subtopics'][t]
                 data['subtopics'][t2]=[]
                 t=t2
-            else:    
+            else:
                 page2=_parse_url(url2)
             if page2[1][5][0][0][0][1][0][0][idx][0].tag == 'span' and len(page2[1][5][0][0][0][1][0][0][idx]) == 2:
-                j2=len(page2[1][5][0][0][0][1][0][0][idx][1]) 
-                for idx3 in range(0,j2): 
+                j2=len(page2[1][5][0][0][0][1][0][0][idx][1])
+                for idx3 in range(0,j2):
                     st = page2[1][5][0][0][0][1][0][0][idx][1][idx3][0].text
                     sthref = 'https://news.google.com' + page2[1][5][0][0][0][1][0][0][idx][1][idx3][0].attrib['href']
                     data['subtopics'][t].append({st:sthref})
                     if detailed:
-                        data['stories'].extend(_parse_stories_page(parse_url(sthref),st))   
-            #else: 
-                #print ">> No Side Sub Topics. Need to Parse next pane <<" 
+                        data['stories'].extend(_parse_stories_page(_parse_url(sthref),st))
+            #else:
+                #print ">> No Side Sub Topics. Need to Parse next pane <<"
             data['stories'].extend(_parse_stories_page(page2,t) )
     return data
-    
+
 def get_google_news_query(q="Barack Obama"):
-    page = _parse_url('https://news.google.com/news?q='+urllib2.quote(q))
+    page = _parse_url('https://news.google.com/news?q='+urllib.parse.quote(q))
     data = {}
     data['stories']=[]
     now = datetime.datetime.now()
     data['meta'] ={}
     data['meta']['timestamp'] = str(now)
     data['stories'].extend(_parse_stories_page(page,q) )
-    data['meta']['url']='https://news.google.com/news?q='+urllib2.quote(q)
+    data['meta']['url']='https://news.google.com/news?q='+urllib.parse.quote(q)
     return data
 
