@@ -118,14 +118,14 @@ List of Editions :
 | EDITION_JAPANESE_HONG_KONG   | 香港 (Hong Kong)                |
 +------------------------------+--------------------------------+
 
-Copyright (c) 2014, Manuel David Pandian
+Copyright (c) 2016,  Manuel David Pandian
 License : MIT (see LICENSE for details)
 """
 
-__author__ = 'Manuel David Pandian'
-__version__ = '0.0.1'
+__author__ = ' Manuel David Pandian'
+__version__ = '0.0.2'
 __license__ = 'MIT'
-__all__ = ['get_google_news','get_google_news_query']
+__all__ = ['get_google_news', 'get_google_news_query']
 
 
 import urllib
@@ -136,20 +136,20 @@ import datetime
 
 # List of Constants
 
-EDITION_SPANISH_ARGENTINA	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=es_ar'
-EDITION_ENGLISH_AUSTRALIA	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=au'
-EDITION_DUTCH_BELGIUM	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=nl_be'
-EDITION_FRENCH_BELGIUM	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=fr_be'
-EDITION_ENGLISH_BOTSWANA	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=en_bw'
-EDITION_PORTUGESE_BRAZIL	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=pt-BR_br'
-EDITION_ENGLISH_CANADA	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=ca'
-EDITION_FRENCH_CANADA	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=fr_ca'
-EDITION_CZECH_CZECH_REPUBLIC	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=cs_cz'
-EDITION_SPANISH_CHILE	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=es_cl'
-EDITION_SPANISH_COLUMBIA	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=es_co'
-EDITION_SPANISH_CUBA	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=es_cu'
-EDITION_DEUTSCH_DEUTSCHLAND	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=de'
-EDITION_SPANISH_SPAIN	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=es'
+EDITION_SPANISH_ARGENTINA = 'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=es_ar'
+EDITION_ENGLISH_AUSTRALIA =	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=au'
+EDITION_DUTCH_BELGIUM = 'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=nl_be'
+EDITION_FRENCH_BELGIUM = 'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=fr_be'
+EDITION_ENGLISH_BOTSWANA = 'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=en_bw'
+EDITION_PORTUGESE_BRAZIL = 'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=pt-BR_br'
+EDITION_ENGLISH_CANADA = 'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=ca'
+EDITION_FRENCH_CANADA = 'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=fr_ca'
+EDITION_CZECH_CZECH_REPUBLIC = 'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=cs_cz'
+EDITION_SPANISH_CHILE =	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=es_cl'
+EDITION_SPANISH_COLUMBIA = 'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=es_co'
+EDITION_SPANISH_CUBA = 'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=es_cu'
+EDITION_DEUTSCH_DEUTSCHLAND	= 'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=de'
+EDITION_SPANISH_SPAIN = 'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=es'
 EDITION_SPANISH_US	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=es_us'
 EDITION_ENGLISH_ETHIOPIA	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=en_et'
 EDITION_FRENCH_FRANCE	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=fr'
@@ -209,89 +209,109 @@ EDITION_CHINESE_TAIWAN	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&
 EDITION_JAPANESE_JAPAN	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=jp'
 EDITION_JAPANESE_HONG_KONG	=	'https://news.google.com/news?hl=en&tab=nn&edchanged=1&authuser=0&ned=hk'
 
+
 def _parse_url(url):
     r = urllib.request.urlopen(url).read()
     page = etree.HTML(r)
     return page
 
-def _parse_stories_page(page,category):
+
+def _parse_stories_page(page, category):
     h2 = page[1][5][0][0][0][2][0][0][0][1][0][0][2][0][0]
     c = len(h2)
     pg0 = []
-    for cj in range(0,c):
+    for cj in range(0, c):
         if h2[cj].attrib['class'].split()[0] == 'blended-wrapper':
-            ll=len(h2[cj][0][0][0][1][0][0][0])
-            for cl in range(0,ll):
+            ll = len(h2[cj][0][0][0][1][0][0][0])
+            for cl in range(0, ll):
                 if h2[cj][0][0][0][1][0][0][0][cl].attrib['class'] == 'esc-layout-article-cell':
-                    SRC = h2[cj][0][0][0][1][0][0][0][cl][1][0][0][0][0][0].xpath("string()").encode('utf-8')
-                    HL = h2[cj][0][0][0][1][0][0][0][cl][0][0][0][0].xpath("string()").encode('utf-8')
-                    CONTEXT = h2[cj][0][0][0][1][0][0][0][cl][2].xpath("string()").encode('utf-8')
-                    URLLINK = h2[cj][0][0][0][1][0][0][0][cl][0][0][0].attrib['url'].encode('utf-8')
+                    SRC = h2[cj][0][0][0][1][0][0][0][cl][1][0][0][0][0][0]\
+                        .xpath("string()").encode('utf-8')
+                    HL = h2[cj][0][0][0][1][0][0][0][cl][0][0][0][0]\
+                        .xpath("string()").encode('utf-8')
+                    CONTEXT = h2[cj][0][0][0][1][0][0][0][cl][2]\
+                        .xpath("string()").encode('utf-8')
+                    URLLINK = h2[cj][0][0][0][1][0][0][0][cl][0][0][0]\
+                        .attrib['url'].encode('utf-8')
                     pg = {}
-                    pg["title"]=HL
-                    pg["link"]=URLLINK
-                    pg["source"]=SRC
-                    pg["content_snippet"]=CONTEXT
+                    pg["title"] = HL
+                    pg["link"] = URLLINK
+                    pg["source"] = SRC
+                    pg["content_snippet"] = CONTEXT
                     pg["category"] = category
                     pg0.append(pg)
     return pg0
 
-def get_google_news(url,geo="detect_metro_area",detailed=False):
+
+def get_google_news(url, geo="detect_metro_area", detailed=False):
     page = _parse_url(url)
-    #print "List of Topics"
+    # print "List of Topics"
     i = len(page[1][5][0][0][0][1][0][0])
     data = {}
-    data['topics']=[]
-    data['subtopics']={}
-    data['stories']=[]
+    data['topics'] = []
+    data['subtopics'] = {}
+    data['stories'] = []
     data['meta'] = {}
-    data['meta']['url']=url
+    data['meta']['url'] = url
     now = datetime.datetime.now()
     data['meta']['timestamp'] = str(now)
-    for idx in range(0,i):
+    for idx in range(0, i):
         t = page[1][5][0][0][0][1][0][0][idx][0].text.encode('utf-8')
         data['topics'].append(t)
-        data['subtopics'][t] =[]
+        data['subtopics'][t] = []
         if page[1][5][0][0][0][1][0][0][idx][0].tag == 'span':
-            if len(page[1][5][0][0][0][1][0][0][idx]) > 1 :
-                j=len(page[1][5][0][0][0][1][0][0][idx][1])
-                for idx2 in range(0,j):
-                    st = page[1][5][0][0][0][1][0][0][idx][1][idx2][0].text.encode('utf-8')
+            if len(page[1][5][0][0][0][1][0][0][idx]) > 1:
+                j = len(page[1][5][0][0][0][1][0][0][idx][1])
+                for idx2 in range(0, j):
+                    st = page[1][5][0][0][0][1][0][0][idx][1][idx2][0]\
+                        .text.encode('utf-8')
                     data['subtopics'][t].append(st)
         elif page[1][5][0][0][0][1][0][0][idx][0].tag == 'a':
-            url2='https://news.google.com' +page[1][5][0][0][0][1][0][0][idx][0].attrib['href']
+            url2 = 'https://news.google.com' + page[1][5][0][0][0][1][0][0][idx][0]\
+                .attrib['href']
             if 'detect_metro_area' in url2:
-                url2 = url2.replace('detect_metro_area',urllib.parse.quote(geo))
-                page2=_parse_url(url2)
-                t2=page2[1][5][0][0][0][2][0][0][0][1][0][0][2][0][0][0][0][0][0][0].text
+                url2 = url2.replace('detect_metro_area',
+                                    urllib.parse.quote(geo))
+                page2 = _parse_url(url2)
+                t2 = page2[1][5][0][0][0][2][0][0][0][1][0][0][2][0][0][0][0][0][0][0]\
+                    .text
                 data['topics'].remove(t)
                 data['topics'].append(t2)
                 del data['subtopics'][t]
-                data['subtopics'][t2]=[]
-                t=t2
+                data['subtopics'][t2] = []
+                t = t2
             else:
-                page2=_parse_url(url2)
-            if page2[1][5][0][0][0][1][0][0][idx][0].tag == 'span' and len(page2[1][5][0][0][0][1][0][0][idx]) == 2:
-                j2=len(page2[1][5][0][0][0][1][0][0][idx][1])
-                for idx3 in range(0,j2):
+                page2 = _parse_url(url2)
+            if page2[1][5][0][0][0][1][0][0][idx][0].tag == 'span' \
+                    and len(page2[1][5][0][0][0][1][0][0][idx]) == 2:
+                j2 = len(page2[1][5][0][0][0][1][0][0][idx][1])
+                for idx3 in range(0, j2):
                     st = page2[1][5][0][0][0][1][0][0][idx][1][idx3][0].text
-                    sthref = 'https://news.google.com' + page2[1][5][0][0][0][1][0][0][idx][1][idx3][0].attrib['href']
-                    data['subtopics'][t].append({st:sthref})
+                    sthref = 'https://news.google.com' + page2[1][5][0][0][0][1][0][0][idx][1][idx3][0]\
+                        .attrib['href']
+                    data['subtopics'][t].append({st: sthref})
                     if detailed:
-                        data['stories'].extend(_parse_stories_page(_parse_url(sthref),st))
-            #else:
-                #print ">> No Side Sub Topics. Need to Parse next pane <<"
-            data['stories'].extend(_parse_stories_page(page2,t) )
+                        data['stories'].extend(
+                            _parse_stories_page(_parse_url(sthref), st)
+                        )
+            # else:
+                # print ">> No Side Sub Topics. Need to Parse next pane <<"
+            data['stories'].extend(
+                _parse_stories_page(page2, t)
+            )
     return data
+
 
 def get_google_news_query(q="Barack Obama"):
     page = _parse_url('https://news.google.com/news?q='+urllib.parse.quote(q))
     data = {}
-    data['stories']=[]
+    data['stories'] = []
     now = datetime.datetime.now()
-    data['meta'] ={}
+    data['meta'] = {}
     data['meta']['timestamp'] = str(now)
-    data['stories'].extend(_parse_stories_page(page,q) )
-    data['meta']['url']='https://news.google.com/news?q='+urllib.parse.quote(q)
+    data['stories'].extend(
+        _parse_stories_page(page, q)
+    )
+    data['meta']['url'] = 'https://news.google.com/news?q=' +\
+        urllib.parse.quote(q)
     return data
-
